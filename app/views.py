@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from .forms import LoginForm, EditForm
-from .models import User
+from .models import User, Dataset
 from datetime import datetime
 
 @app.before_request
@@ -14,24 +14,47 @@ def before_request():
         db.session.commit()
 
 @app.route('/')
-@app.route('/index')
-@login_required
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    user = g.user
-    posts = [
-        {
-            'author': {'nickname': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'nickname': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html',
-                            title='Home',
-                            user=user,
-                            posts=posts)
+    '''
+    form = LoginForm()
+    if form.validate_on_submit():
+        g.dataset.organism = form.species
+        g.dataset.type = form.tech
+        g.dataset.cell_line = form.cell_line
+        g.dataset.treatment = form.drug
+        g.gene = form.gene
+        datasets = Dataset.query.filter_by(cell_line=form.cell_line).all()
+        if datasets is None:
+            flash("%s not found" % form.cell_line)
+            return render_template('index.html',
+                                   posts=posts,
+                                   form=form)
+        else:
+            flash("%s found" % form.cell_line)
+            return render_template('no_gene.html',
+                                   datasets=datasets)
+    else:
+        flash('form.validate_on_submit() failed')
+    '''
+
+
+    return render_template('index.html')#,
+                            #form=form)
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    cell_line = request.form['cell_line']
+    drug = request.form['drug']
+    ds = Dataset.query.filter_by(cell_line=cell_line).all()
+    if ds:
+        flash('%s found' % cell_line)
+        return render_template('no_gene.html', datasets=ds)
+    else:
+        flash('No %s found' % cell_line)
+        return render_template('index.html')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

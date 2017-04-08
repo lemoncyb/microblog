@@ -1,7 +1,39 @@
-{% extends "base.html" %}
-{% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.nickname }} says: <i>{{ post.body }}</i></p></div>
-    {% endfor %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Database of CRISPR Screen Data</title>
+  </head>
+  <body>
+  <div>CRISPR DB:
+        <a href="{{ url_for('index') }}">Home</a>
+  </div>
+  <h1>Database of CRISPR Screen Data</h1>
+  <div id="content">
+                <form method="post" action="{{ url_for('search') }}">
+                    <label for="human">Human</label>
+                    <input type="radio" name="Species" value="human" checked><br>
+                    <label for="mouse">Mouse</label>
+                    <input type="radio" name="Species" value="mouse"><br>
+                    <input type="checkbox" name="tech" value="all" checked="checked"> All<br>
+                    <input type="checkbox" name="tech" value="a"> CRISPR a<br>
+                    <input type="checkbox" name="tech" value="i"> CRISPR i<br>
+                    <input type="checkbox" name="tech" value="ko"> CRISPR ko<br>
+                  <label for="cell_line">Biological Source:</label>
+                  <input type="text" name="cell_line" /><br />
+                  <label for="drug">Condition:</label>
+                  <input type="text" name="drug" /><br />
+                  <input type="submit" />
+                </form>
+  </div>
+  {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+  </body>
+</html>

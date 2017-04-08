@@ -1,0 +1,8 @@
+<!-- extend base layout -->
+{% extends "index.html" %}
+
+{% block content %}
+  {% for dataset in datasets %}
+      {{ dataset.pmid }} | {{ dataset.journal }} <br>
+  {% endfor %}
+{% endblock %}
