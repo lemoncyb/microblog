@@ -2,7 +2,41 @@
 {% extends "index.html" %}
 
 {% block content %}
-  {% for dataset in datasets %}
-      {{ dataset.pmid }} | {{ dataset.journal }} <br>
-  {% endfor %}
+  <div class="container">
+      <hr>
+
+      <h3>Results</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Sample</th>
+          <th>Species</th>
+          <th>Cell Line</th>
+          <th>Type</th>
+          <th>Library</th>
+          <th>PMID</th>
+          <th>Journal</th>
+          <th>Year</th>
+          <th>Last Author</th>
+          <th>QC</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for dataset in datasets %}
+    <tr>
+        <td>{{ dataset.sample }}</td>
+        <td>{{ dataset.species }}</td>
+        <td>{{ dataset.cell_line }}</td>
+        <td>{{ dataset.type }}</td>
+        <td>{{ dataset.library }}</td>
+        <td>{{ dataset.pmid }}</td>
+        <td>{{ dataset.journal }}</td>
+        <td>{{ dataset.year }}</td>
+        <td>{{ dataset.last_author }}</td>
+    <tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  </div>
 {% endblock %}

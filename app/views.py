@@ -46,13 +46,16 @@ def index():
 @app.route('/search', methods=['POST'])
 def search():
     cell_line = request.form['cell_line']
-    drug = request.form['drug']
-    ds = Dataset.query.filter_by(cell_line=cell_line).all()
+    treatment = request.form['drug']
+    if cell_line:
+        ds = Dataset.query.filter_by(cell_line=cell_line).all()
+    if treatment:
+        ds = Dataset.query.filter_by(treatment=treatment).all()
     if ds:
-        flash('%s found' % cell_line)
+        #flash('%s found' % cell_line)
         return render_template('no_gene.html', datasets=ds)
     else:
-        flash('No %s found' % cell_line)
+        #flash('No %s found' % cell_line)
         return render_template('index.html')
 
 

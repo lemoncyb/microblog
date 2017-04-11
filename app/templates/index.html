@@ -1,19 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Database of CRISPR Screen Data</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-  <div>CRISPR DB:
-        <a href="{{ url_for('index') }}">Home</a>
+
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ url_for('index') }}">CRISPR Database</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+        <li class="active"><a href="#">Tutorial</a></li>
+        <li class="active"><a href="#">FAQ</a></li>
+    </ul>
   </div>
-  <h1>Database of CRISPR Screen Data</h1>
+</nav>
+
+<div class="container">
+  <h2>Database of CRISPR Screen Data</h2><br>
+</div>
+
+  <div class="container">
   <div id="content">
                 <form method="post" action="{{ url_for('search') }}">
+                    <h5><b>Species:</b></h5>
                     <label for="human">Human</label>
                     <input type="radio" name="Species" value="human" checked><br>
                     <label for="mouse">Mouse</label>
                     <input type="radio" name="Species" value="mouse"><br>
+                    <h5><b>Tech:</b></h5>
                     <input type="checkbox" name="tech" value="all" checked="checked"> All<br>
                     <input type="checkbox" name="tech" value="a"> CRISPR a<br>
                     <input type="checkbox" name="tech" value="i"> CRISPR i<br>
@@ -22,9 +44,14 @@
                   <input type="text" name="cell_line" /><br />
                   <label for="drug">Condition:</label>
                   <input type="text" name="drug" /><br />
-                  <input type="submit" />
+                    <label for="gene">Gene:</label>
+                  <input type="text" name="gene" /><br />
+                  <input type="submit" name="Search" />
                 </form>
   </div>
+  </div>
+
+  <div class="container">
   {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
@@ -34,6 +61,7 @@
         </ul>
       {% endif %}
   {% endwith %}
+  </div>
   {% block content %}{% endblock %}
   </body>
 </html>
