@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+app/__pycache__/
+db_repository/__pycache__/
+db_repository/versions/__pycache__/
+tmp/
+venv/
